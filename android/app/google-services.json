@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "810923245124",
+    "project_id": "netizen-9f797",
+    "storage_bucket": "netizen-9f797.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810923245124:android:1911a66c06c6a7b013c611",
+        "android_client_info": {
+          "package_name": "com.example.netizen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "810923245124-5psm22ncv3519eqaug37tet72msi9s3l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvpuL6vW1L77IiuJyNacEjGaDcBzSB03c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "810923245124-5psm22ncv3519eqaug37tet72msi9s3l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "810923245124-aa4444np57tvr36kef0dcg4ti0ih48us.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.netizen"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
