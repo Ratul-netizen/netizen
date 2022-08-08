@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Instagram Clone',
+        title: 'Netizen',
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
@@ -50,10 +50,8 @@ class MyApp extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
                 return const ResponsiveLayout(
-                 mobileScreenLayout:  MobileScreenLayout(),
-                 webScreenLayout: WebScreenLayout(), 
-                 mobileScreenlayout: null, 
-                 webScreenlayout: null,
+                  mobileScreenLayout: MobileScreenLayout(),
+                  webScreenLayout: WebScreenLayout(),
                 );
               } else if (snapshot.hasError) {
                 return Center(
@@ -61,8 +59,6 @@ class MyApp extends StatelessWidget {
                 );
               }
             }
-
-            // means connection to future hasnt been made yet
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                 child: CircularProgressIndicator(),
