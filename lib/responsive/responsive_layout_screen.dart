@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:netizen/responsive/mobile_screen_layout.dart';
+import 'package:netizen/responsive/web_screen_layout.dart';
 import 'package:netizen/utils/dimensions.dart';
 
 class ResponsiveLayout extends StatelessWidget {
@@ -7,7 +9,7 @@ class ResponsiveLayout extends StatelessWidget {
   const ResponsiveLayout(
       {Key? key,
       required this.webScreenlayout,
-      required this.mobileScreenlayout})
+      required this.mobileScreenlayout, required MobileScreenLayout mobileScreenLayout, required WebScreenLayout webScreenLayout})
       : super(key: key);
 
   @override

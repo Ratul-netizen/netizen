@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:netizen/resources/auth_methods.dart';
+import 'package:netizen/screens/login_screen.dart';
 import 'package:netizen/utils/colors.dart';
 import 'package:netizen/utils/utils.dart';
 import 'package:netizen/widgets/text_field_input.dart';
@@ -11,14 +12,16 @@ class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  // ignore: library_private_types_in_public_api
+  _SignupScreenState createState() => _SignupScreenState();
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
+  bool _isLoading = false;
   Uint8List? _image;
 
   @override
@@ -26,30 +29,54 @@ class _SignupScreenState extends State<SignupScreen> {
     super.dispose();
     _emailController.dispose();
     _passwordController.dispose();
-    _bioController.dispose();
     _usernameController.dispose();
-  }
-
-  void selectImage() async {
-    Uint8List img = await pickImage(ImageSource.gallery, ImageSource.camera);
-    setState(() {
-      _image = img;
-    });
+    _bioController.dispose();
   }
 
   void signUpUser() async {
+    setState(
+      () {
+        _isLoading = true;
+      },
+    );
+    // signup user using our authmethodds
     String res = await AuthMethods().signUpUser(
-      email: _emailController.text,
-      password: _passwordController.text,
-      username: _usernameController.text,
-      bio: _bioController.text,
-      file: _image!,
+        email: _emailController.text,
+        password: _passwordController.text,
+        username: _usernameController.text,
+        bio: _bioController.text,
+        file: _image!);
+    // if string returned is sucess, user has been created
+    if (res == "success") {
+      setState(
+        () {
+          _isLoading = false;
+        },
+      );
+    } else {
+      setState(
+        () {
+          _isLoading = false;
+        },
+      );
+      // ignore: use_build_context_synchronously
+      showSnackBar(context, res);
+    }
+  }
+
+  selectImage() async {
+    Uint8List im = await pickImage(ImageSource.gallery, ImageSource.camera);
+    setState(
+      () {
+        _image = im;
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -58,8 +85,8 @@ class _SignupScreenState extends State<SignupScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Flexible(
-                flex: 2,
                 child: Container(),
+                flex: 2,
               ),
               SvgPicture.asset(
                 'assets/ic_instagram.svg',
@@ -75,57 +102,56 @@ class _SignupScreenState extends State<SignupScreen> {
                       ? CircleAvatar(
                           radius: 64,
                           backgroundImage: MemoryImage(_image!),
+                          backgroundColor: Colors.red,
                         )
                       : const CircleAvatar(
                           radius: 64,
                           backgroundImage: NetworkImage(
-                            'https://static.wikia.nocookie.net/itstabletoptime/images/b/b5/Default.jpg/revision/latest?cb=20210606184459',
-                          ),
+                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
+                          backgroundColor: Colors.red,
                         ),
                   Positioned(
                     bottom: -10,
                     left: 80,
                     child: IconButton(
                       onPressed: selectImage,
-                      icon: const Icon(
-                        Icons.add_a_photo,
-                      ),
+                      icon: const Icon(Icons.add_a_photo),
                     ),
-                  ),
+                  )
                 ],
               ),
               const SizedBox(
                 height: 24,
               ),
               TextFieldInput(
+                hintText: 'Enter your username',
+                textInputType: TextInputType.text,
                 textEditingController: _usernameController,
-                hintText: 'Enter Your Username',
-                textInputType: TextInputType.text,
               ),
               const SizedBox(
                 height: 24,
               ),
               TextFieldInput(
-                textEditingController: _emailController,
-                hintText: 'Enter Your Email',
+                hintText: 'Enter your email',
                 textInputType: TextInputType.emailAddress,
+                textEditingController: _emailController,
               ),
               const SizedBox(
                 height: 24,
               ),
               TextFieldInput(
-                textEditingController: _passwordController,
-                hintText: 'Enter Your Password',
+                hintText: 'Enter your password',
                 textInputType: TextInputType.text,
+                textEditingController: _passwordController,
                 isPass: true,
               ),
               const SizedBox(
                 height: 24,
               ),
               TextFieldInput(
-                textEditingController: _bioController,
-                hintText: 'Enter Your Bio',
+                hintText: 'Enter your bio',
                 textInputType: TextInputType.text,
+                textEditingController: _bioController,
               ),
               const SizedBox(
                 height: 24,
@@ -138,13 +164,17 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   decoration: const ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(4),
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
                     color: blueColor,
                   ),
-                  child: const Text('Sign Up'),
+                  child: !_isLoading
+                      ? const Text(
+                          'Sign up',
+                        )
+                      : const CircularProgressIndicator(
+                          color: primaryColor,
+                        ),
                 ),
               ),
               const SizedBox(
@@ -153,6 +183,33 @@ class _SignupScreenState extends State<SignupScreen> {
               Flexible(
                 flex: 2,
                 child: Container(),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: const Text(
+                      'Already have an account?',
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const LoginScreen(),
+                      ),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: const Text(
+                        ' Login.',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
