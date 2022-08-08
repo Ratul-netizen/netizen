@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:netizen/responsive/mobile_screen_layout.dart';
 import 'package:netizen/responsive/web_screen_layout.dart';
-import 'package:netizen/utils/dimensions.dart';
+import 'package:netizen/utils/global_variable.dart';
 
 class ResponsiveLayout extends StatelessWidget {
   final Widget webScreenlayout;
@@ -16,7 +16,7 @@ class ResponsiveLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > webScreeSize) {
+        if (constraints.maxWidth > webScreenSize) {
           return webScreenlayout;
         }
         return mobileScreenlayout;

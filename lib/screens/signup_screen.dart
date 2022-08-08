@@ -85,8 +85,8 @@ class _SignupScreenState extends State<SignupScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Flexible(
-                child: Container(),
                 flex: 2,
+                child: Container(),
               ),
               SvgPicture.asset(
                 'assets/ic_instagram.svg',

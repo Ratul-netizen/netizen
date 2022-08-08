@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:netizen/screens/signup_screen.dart';
 import 'package:netizen/utils/colors.dart';
 import 'package:netizen/widgets/text_field_input.dart';
 
@@ -93,7 +94,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: const Text("Don't have an Account?"),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                   onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const SignupScreen(),
+                      ),
+                    ),
                     child: Container(
                       padding: const EdgeInsets.symmetric(
                         vertical: 8,
