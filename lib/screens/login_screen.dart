@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:netizen/resources/auth_methods.dart';
+import 'package:netizen/responsive/mobile_screen_layout.dart';
+import 'package:netizen/responsive/responsive_layout_screen.dart';
+import 'package:netizen/responsive/web_screen_layout.dart';
 import 'package:netizen/screens/signup_screen.dart';
 import 'package:netizen/utils/colors.dart';
+import 'package:netizen/utils/global_variable.dart';
+import 'package:netizen/utils/utils.dart';
 import 'package:netizen/widgets/text_field_input.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -22,12 +29,46 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
   }
 
+  void loginUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    String res = await AuthMethods().loginUser(
+        email: _emailController.text, password: _passwordController.text);
+    if (res == 'success') {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (context) => const ResponsiveLayout(
+              mobileScreenLayout: MobileScreenLayout(),
+              webScreenLayout: WebScreenLayout(),
+              mobileScreenlayout: MobileScreenLayout(), 
+              webScreenlayout: WebScreenLayout(),
+            ),
+          ),
+          (route) => false);
+
+      setState(() {
+        _isLoading = false;
+      });
+    } else {
+      setState(() {
+        _isLoading = false;
+      });
+      showSnackBar(context, res);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 32),
+          padding: MediaQuery.of(context).size.width > webScreenSize
+              ? EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 3)
+              : const EdgeInsets.symmetric(horizontal: 32),
           width: double.infinity,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -45,36 +86,41 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 64,
               ),
               TextFieldInput(
-                textEditingController: _emailController,
-                hintText: 'Enter Your Email',
+                hintText: 'Enter your email',
                 textInputType: TextInputType.emailAddress,
+                textEditingController: _emailController,
               ),
               const SizedBox(
                 height: 24,
               ),
               TextFieldInput(
-                textEditingController: _passwordController,
-                hintText: 'Enter Your Password',
+                hintText: 'Enter your password',
                 textInputType: TextInputType.text,
+                textEditingController: _passwordController,
                 isPass: true,
               ),
               const SizedBox(
                 height: 24,
               ),
               InkWell(
+                onTap: loginUser,
                 child: Container(
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   decoration: const ShapeDecoration(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(4),
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
                     ),
                     color: blueColor,
                   ),
-                  child: const Text('Log In'),
+                  child: !_isLoading
+                      ? const Text(
+                          'Log in',
+                        )
+                      : const CircularProgressIndicator(
+                          color: primaryColor,
+                        ),
                 ),
               ),
               const SizedBox(
@@ -88,23 +134,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: const Text(
+                      'Dont have an account?',
                     ),
-                    child: const Text("Don't have an Account?"),
                   ),
                   GestureDetector(
-                   onTap: () => Navigator.of(context).push(
+                    onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => const SignupScreen(),
                       ),
                     ),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 8),
                       child: const Text(
-                        "Sign Up.",
+                        ' Signup.',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
