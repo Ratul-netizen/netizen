@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
             builder: (context) => const ResponsiveLayout(
               mobileScreenLayout: MobileScreenLayout(),
               webScreenLayout: WebScreenLayout(),
-              mobileScreenlayout: MobileScreenLayout(), 
+              mobileScreenlayout: MobileScreenLayout(),
               webScreenlayout: WebScreenLayout(),
             ),
           ),
@@ -52,9 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = false;
       });
     } else {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(
+        () {
+          _isLoading = false;
+        },
+      );
       showSnackBar(context, res);
     }
   }
@@ -78,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(),
               ),
               SvgPicture.asset(
-                'assets/ic_instagram.svg',
+                'assets/ic_netizen.svg',
                 color: primaryColor,
                 height: 64,
               ),
