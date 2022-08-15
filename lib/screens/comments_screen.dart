@@ -9,6 +9,7 @@ import 'package:netizen/widgets/comment_card.dart';
 import 'package:provider/provider.dart';
 
 class CommentsScreen extends StatefulWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final postId;
   const CommentsScreen({Key? key, required this.postId}) : super(key: key);
 
