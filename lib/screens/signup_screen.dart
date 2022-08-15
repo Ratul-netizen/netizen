@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:netizen/resources/auth_methods.dart';
+import 'package:netizen/responsive/mobile_screen_layout.dart';
+import 'package:netizen/responsive/responsive_layout_screen.dart';
+import 'package:netizen/responsive/web_screen_layout.dart';
 import 'package:netizen/screens/login_screen.dart';
 import 'package:netizen/utils/colors.dart';
 import 'package:netizen/utils/utils.dart';
@@ -30,15 +33,14 @@ class _SignupScreenState extends State<SignupScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     _usernameController.dispose();
-    _bioController.dispose();
   }
 
   void signUpUser() async {
-    setState(
-      () {
-        _isLoading = true;
-      },
-    );
+    // set loading to true
+    setState(() {
+      _isLoading = true;
+    });
+
     // signup user using our authmethodds
     String res = await AuthMethods().signUpUser(
         email: _emailController.text,
@@ -48,18 +50,26 @@ class _SignupScreenState extends State<SignupScreen> {
         file: _image!);
     // if string returned is sucess, user has been created
     if (res == "success") {
-      setState(
-        () {
-          _isLoading = false;
-        },
+      setState(() {
+        _isLoading = false;
+      });
+      // navigate to the home screen
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const ResponsiveLayout(
+            mobileScreenLayout: MobileScreenLayout(),
+            webScreenLayout: WebScreenLayout(),
+            mobileScreenlayout: MobileScreenLayout(),
+            webScreenlayout: WebScreenLayout(),
+          ),
+        ),
       );
     } else {
-      setState(
-        () {
-          _isLoading = false;
-        },
-      );
-      // ignore: use_build_context_synchronously
+      setState(() {
+        _isLoading = false;
+      });
+      // show the error
       showSnackBar(context, res);
     }
   }
@@ -107,7 +117,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       : const CircleAvatar(
                           radius: 64,
                           backgroundImage: NetworkImage(
-                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png'),
+                              'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png'),
                           backgroundColor: Colors.red,
                         ),
                   Positioned(
