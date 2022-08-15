@@ -33,7 +33,21 @@ class _AddPostScreenState extends State<AddPostScreen> {
               onPressed: () async {
                 Navigator.pop(context);
                 Uint8List file =
-                    await pickImage(ImageSource.camera, ImageSource.gallery);
+                    await pickImage(ImageSource.camera, ImageSource.camera);
+                setState(
+                  () {
+                    _file = file;
+                  },
+                );
+              },
+            ),
+             SimpleDialogOption(
+              padding: const EdgeInsets.all(20),
+              child: const Text('Choose from Gallery'),
+              onPressed: () async {
+                Navigator.of(context).pop();
+                Uint8List file =
+                    await pickImage(ImageSource.gallery,ImageSource.gallery);
                 setState(() {
                   _file = file;
                 });

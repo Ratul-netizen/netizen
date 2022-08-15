@@ -58,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
           _isLoading = false;
         },
       );
+      // ignore: use_build_context_synchronously
       showSnackBar(context, res);
     }
   }
