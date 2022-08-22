@@ -32,6 +32,7 @@ class _SearchScreenState extends State<SearchScreen> {
               setState(() {
                 isShowUsers = true;
               });
+              // ignore: avoid_print
               print(_);
             },
           ),

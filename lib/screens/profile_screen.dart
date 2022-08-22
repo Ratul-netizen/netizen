@@ -13,6 +13,7 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key, required this.uid}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
@@ -228,6 +229,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       itemBuilder: (context, index) {
                         DocumentSnapshot snap =
                             (snapshot.data! as dynamic).docs[index];
+                        // ignore: avoid_unnecessary_containers
                         return Container(
                           child: Image(
                             image: NetworkImage(snap['postUrl']),

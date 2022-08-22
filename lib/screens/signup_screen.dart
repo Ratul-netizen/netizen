@@ -60,8 +60,6 @@ class _SignupScreenState extends State<SignupScreen> {
           builder: (context) => const ResponsiveLayout(
             mobileScreenLayout: MobileScreenLayout(),
             webScreenLayout: WebScreenLayout(),
-            mobileScreenlayout: MobileScreenLayout(),
-            webScreenlayout: WebScreenLayout(),
           ),
         ),
       );
@@ -70,6 +68,7 @@ class _SignupScreenState extends State<SignupScreen> {
         _isLoading = false;
       });
       // show the error
+      // ignore: use_build_context_synchronously
       showSnackBar(context, res);
     }
   }

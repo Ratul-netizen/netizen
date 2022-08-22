@@ -43,8 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
             builder: (context) => const ResponsiveLayout(
               mobileScreenLayout: MobileScreenLayout(),
               webScreenLayout: WebScreenLayout(),
-              mobileScreenlayout: MobileScreenLayout(),
-              webScreenlayout: WebScreenLayout(),
             ),
           ),
           (route) => false);
