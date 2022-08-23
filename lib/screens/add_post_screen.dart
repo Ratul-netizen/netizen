@@ -28,31 +28,25 @@ class _AddPostScreenState extends State<AddPostScreen> {
           title: const Text('Create a Post'),
           children: <Widget>[
             SimpleDialogOption(
-              padding: const EdgeInsets.all(20),
-              child: const Text('Take a photo'),
-              onPressed: () async {
-                Navigator.pop(context);
-                Uint8List file =
-                    await pickImage(ImageSource.camera, ImageSource.camera);
-                setState(
-                  () {
+                padding: const EdgeInsets.all(20),
+                child: const Text('Take a photo'),
+                onPressed: () async {
+                  Navigator.pop(context);
+                  Uint8List file = await pickImage(ImageSource.camera, ImageSource.camera);
+                  setState(() {
                     _file = file;
-                  },
-                );
-              },
-            ),
-             SimpleDialogOption(
-              padding: const EdgeInsets.all(20),
-              child: const Text('Choose from Gallery'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                Uint8List file =
-                    await pickImage(ImageSource.gallery,ImageSource.gallery);
-                setState(() {
-                  _file = file;
-                });
-              },
-            ),
+                  });
+                }),
+            SimpleDialogOption(
+                padding: const EdgeInsets.all(20),
+                child: const Text('Choose from Gallery'),
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  Uint8List file = await pickImage(ImageSource.gallery, ImageSource.gallery);
+                  setState(() {
+                    _file = file;
+                  });
+                }),
             SimpleDialogOption(
               padding: const EdgeInsets.all(20),
               child: const Text("Cancel"),
@@ -106,11 +100,9 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   void clearImage() {
-    setState(
-      () {
-        _file = null;
-      },
-    );
+    setState(() {
+      _file = null;
+    });
   }
 
   @override
@@ -197,7 +189,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                             fit: BoxFit.fill,
                             alignment: FractionalOffset.topCenter,
                             image: MemoryImage(_file!),
-                          )),
+                          ),),
                         ),
                       ),
                     ),
